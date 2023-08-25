@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function AuthenticationPage() {
   return (
     <>
-      <div className="container relative hidden h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <div className="container relative hidden h-full flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
           href="/authentication/login"
           className={cn(
@@ -41,11 +41,9 @@ export default function AuthenticationPage() {
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
               <p className="text-lg">
-                &ldquo;This library has saved me countless hours of work and
-                helped me deliver stunning designs to my clients faster than
-                ever before.&rdquo;
+                &ldquo;Se o conhecimento pode criar problemas, não é através da ignorância que podemos solucioná-los.&rdquo;
               </p>
-              <footer className="text-sm">Sofia Davis</footer>
+              <footer className="text-sm">Isaac Asimov</footer>
             </blockquote>
           </div>
         </div>
@@ -61,7 +59,7 @@ export default function AuthenticationPage() {
             </div>
             <UserAuthForm />
             <p className="px-8 text-center text-sm text-muted-foreground">
-              Clicando para continuar, voce aceita com nossos{" "}
+              Clicando para continuar, você aceita com nossos{" "}
               <Link
                 href="/terms"
                 className="underline underline-offset-4 hover:text-primary"
