@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     "Página de autenticação na plataforma Wearable FIT",
 };
 
-export default function Register() {
+export default function Login() {
   return (
     <div className="container py-48 md:py-0  h-full flex-col items-center justify-center md:grid">
       <div className="lg:p-8">
