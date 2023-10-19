@@ -1,6 +1,5 @@
 "use client"
 
-import { Metadata } from "next"
 import Link from "next/link"
 
 import { cn } from "@/lib/utils"
@@ -9,11 +8,6 @@ import { UserAuthForm } from "@/components/user-auth-form"
 import Image from "next/image"
 import logo from "../../public/assets/icon.svg"
 import { Carousel } from "@/components/carousel"
-
-export const metadata: Metadata = {
-  title: "Wearable FIT",
-  description: "Home screen",
-}
 
 export default function HomePage() {
   return (
