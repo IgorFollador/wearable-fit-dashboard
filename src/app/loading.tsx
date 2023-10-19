@@ -1,10 +1,10 @@
 import Image from "next/image";
 import logo from "../../public/assets/logo.svg";
 
-const Loading = () => {
+export default function LoadingPage() {
   return (
-    <div className="loading-container">
-      <div className="loading-content">
+    <div className="flex justify-center items-center min-h-screen bg-gray-200">
+      <div className="text-center">
         <div className="logo-container">
           <Image
             src={logo}
@@ -17,5 +17,3 @@ const Loading = () => {
     </div>
   );
 };
-
-export default Loading;
