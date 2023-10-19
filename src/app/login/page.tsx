@@ -5,11 +5,11 @@ import { Metadata } from "next";
 import Link from "next/link";
 import UserLoginForm from "@/components/user-login-auth";
 
-export const metadata: Metadata = {
-  title: "Autenticação",
-  description:
-    "Página de autenticação na plataforma Wearable FIT",
-};
+// export const metadata: Metadata = {
+//   title: "Autenticação",
+//   description:
+//     "Página de autenticação na plataforma Wearable FIT",
+// };
 
 export default function Login() {
   return (
