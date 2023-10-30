@@ -1,13 +1,13 @@
 "use client"
 
-import Link from "next/link"
+import Link from "next/link";
 
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-import { UserAuthForm } from "@/components/user-auth-form"
-import Image from "next/image"
-import logo from "../../public/assets/icon.svg"
-import { Carousel } from "@/components/carousel"
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { UserCreateForm } from "@/components/user-create-form";
+import Image from "next/image";
+import logo from "@/../public/assets/icon-white.svg";
+import { Carousel } from "@/components/carousel";
 
 export default function HomePage() {
   return (
@@ -28,7 +28,6 @@ export default function HomePage() {
             <Image
               src={logo}
               alt="Wearable FIT Icon"
-              style={{ filter: 'invert(100%)' }}
               width={40}
               className="m-4"
               priority
@@ -57,7 +56,7 @@ export default function HomePage() {
                 Insira seu email para criar uma conta
               </p>
             </div>
-            <UserAuthForm />
+            <UserCreateForm />
             <p className="px-8 text-center text-sm text-muted-foreground">
               Clicando para continuar, você aceita com nossos{" "}
               <Link
