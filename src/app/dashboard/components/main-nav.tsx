@@ -1,11 +1,15 @@
-import Link from "next/link"
+"use client"
 
-import { cn } from "@/lib/utils"
+import Link from "next/link";
+
+import { cn } from "@/lib/utils";
+import { usePathname } from 'next/navigation';
 
 export function MainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
+  const pathname = usePathname();
   return (
     <nav
       className={cn("flex items-center space-x-4 lg:space-x-6", className)}
@@ -13,19 +17,34 @@ export function MainNav({
     >
       <Link
         href="/dashboard"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+        className={
+          cn(
+            "text-sm font-medium transition-colors hover:text-primary", 
+            pathname != "/dashboard" && "text-muted-foreground"
+          )
+        }
       >
         Dashboard
       </Link>
       <Link
         href="/dashboard/customers"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+        className={
+          cn(
+            "text-sm font-medium transition-colors hover:text-primary", 
+            pathname != "/dashboard/customers" && "text-muted-foreground"
+          )
+        }
       >
         Alunos
       </Link>
       <Link
         href="/dashboard/settings"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+        className={
+          cn(
+            "text-sm font-medium transition-colors hover:text-primary", 
+            pathname != "/dashboard/settings" && "text-muted-foreground"
+            )
+          }
       >
         Configurações
       </Link>
