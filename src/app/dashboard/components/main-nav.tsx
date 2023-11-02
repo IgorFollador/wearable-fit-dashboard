@@ -24,7 +24,7 @@ export function MainNav({
         Alunos
       </Link>
       <Link
-        href="/dashboard"
+        href="/dashboard/settings"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
         Configurações
