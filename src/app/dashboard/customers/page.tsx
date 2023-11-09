@@ -8,7 +8,7 @@ import { DataTable } from "./components/data-table";
 import { customerSchema } from "./data/schema";
 
 async function getCustomers() {
-    // const data = await api.get('professional/users') 
+    // const data = await api.get('users/clients') 
     const data = await fs.readFile(
         path.join(process.cwd(), "src/app/dashboard/customers/data/customers.json")
     )

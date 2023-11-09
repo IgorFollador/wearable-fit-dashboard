@@ -4,7 +4,6 @@ import { MainNav } from './components/main-nav';
 import { UserNav } from './components/user-nav';
 import logo from '@/../public/assets/icon.svg';
 import Image from 'next/image';
-import Head from 'next/head';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,13 +18,10 @@ interface DashboardSettingsProps {
 
 export default function DashboardLayout({ children }: DashboardSettingsProps) {
   return (
-    <html lang="pt-BR" style={ {height:'100%'} }>
-      <Head>
-      </Head>
-      <body className={inter.className} style={ {height:'100%'} }>
+      <main style={ {height:'100%'} }>
         <div className="hidden flex-col md:flex">
-          <div className="border-b">
-            <div className="flex h-16 items-center px-4">
+          <div>
+            <div className="flex h-16 items-center px-4 border-b">
               <Image
                 src={logo}
                 alt="Wearable FIT Icon"
@@ -44,7 +40,6 @@ export default function DashboardLayout({ children }: DashboardSettingsProps) {
             </div>
           </div>
         </div>
-      </body>
-    </html>
+      </main>
   )
 }
