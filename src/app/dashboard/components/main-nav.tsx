@@ -31,7 +31,7 @@ export function MainNav({
         className={
           cn(
             "text-sm font-medium transition-colors hover:text-primary", 
-            pathname != "/dashboard/customers" && "text-muted-foreground"
+            !pathname.includes("/dashboard/customers") && "text-muted-foreground"
           )
         }
       >
@@ -42,9 +42,9 @@ export function MainNav({
         className={
           cn(
             "text-sm font-medium transition-colors hover:text-primary", 
-            pathname != "/dashboard/settings" && "text-muted-foreground"
-            )
-          }
+            !pathname.includes("/dashboard/settings") && "text-muted-foreground"
+          )
+        }
       >
         Configurações
       </Link>

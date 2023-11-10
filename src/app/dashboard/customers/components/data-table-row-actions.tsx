@@ -11,14 +11,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
 }
 
-export function DataTableRowActions<TData>({
-}: DataTableRowActionsProps<TData>) {
-
+export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -31,7 +30,13 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>Editar</DropdownMenuItem>
+        <Link
+          href={"customers/edit/" + row.original.id}
+        >
+          <DropdownMenuItem>
+            Editar
+          </DropdownMenuItem>
+        </Link>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           Remover Vínculo

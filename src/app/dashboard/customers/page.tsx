@@ -20,8 +20,11 @@ export default async function CustomersPage() {
     const customers = await getCustomers();
     return (
         <>
-            <div className="flex items-center justify-between space-y-2">
+            <div className="space-y-0.5">
                 <h2 className="text-3xl font-bold tracking-tight">Alunos</h2>
+                <p className="text-muted-foreground">
+                    Realize buscas para visualizar ou editar dados dos seus Alunos.
+                </p>
             </div>
             <DataTable data={customers} columns={columns} />
         </>
