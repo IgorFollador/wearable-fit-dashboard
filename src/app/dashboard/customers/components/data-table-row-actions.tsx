@@ -14,7 +14,7 @@ import {
 import Link from "next/link";
 
 interface DataTableRowActionsProps<TData> {
-  row: Row<TData>
+  row: Row<TData & { id?: string }>
 }
 
 export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {

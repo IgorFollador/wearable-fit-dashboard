@@ -1,11 +1,9 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import Image from 'next/image';
+
 import { MainNav } from './components/main-nav';
 import { UserNav } from './components/user-nav';
 import logo from '@/../public/assets/icon.svg';
-import Image from 'next/image';
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Wearable FIT',
@@ -17,6 +15,7 @@ interface DashboardSettingsProps {
 }
 
 export default function DashboardLayout({ children }: DashboardSettingsProps) {
+  
   return (
       <main style={ {height:'100%'} }>
         <div className="hidden flex-col md:flex">

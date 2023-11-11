@@ -1,89 +1,62 @@
 "use client";
 import { cn } from "@/lib/utils";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
-
-
 import { useToast } from "@/components/ui/use-toast";
-
 import { ToastAction } from "@/components/ui/toast";
+import { AuthContext } from "../contexts/AuthContext";
 
-import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-interface IUser {
-  email: string;
-  password: string;
+type FormValues = {
+  email: string
+  password: string
 }
 
 export default function UserLoginForm({ className, ...props }: UserAuthFormProps) {
-
-  const [data, setData] = useState<IUser>({
-    email: "",
-    password: "",
-  });
-  
+  const { register, handleSubmit } = useForm();
+  const { signIn } = useContext(AuthContext);
   const { toast } = useToast();
-  
-  const router = useRouter();
-  
   const [isLoading, setIsLoading] = useState<boolean>(false);
   
-  async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault();
+  async function handleSignIn(data: FormValues) {
     setIsLoading(true);
-  
-    // const res = await signIn<"credentials">("credentials", {
-    //   ...data,
-    //   redirect: false,
-    // });
-  
-    const res = {error:''}
-  
-    if (res?.error) {
+    
+    try {
+      console.log(data);
+      await signIn(data);
+
+    } catch (error) {
+      console.log(error);
       toast({
         title: "Ooops...",
-        description: res.error,
+        description: "Email ou senha incorretas!",
         variant: "destructive",
         action: (
-          <ToastAction altText="Tente Novamente">Tente Novamente</ToastAction>
+          <ToastAction altText="ente Novamente">Tente Novamente</ToastAction>
         ),
       });
-    } else {
-      router.push("/");
     }
-  
-    // setTimeout(() => {
-    //   setIsLoading(false);
-    // }, 5000);
-  
-    setData({
-      email: "",
-      password: "",
-    });
+
     setIsLoading(false);
   }
   
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
-    });
-  };
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
-      {/* {JSON.stringify(data)} */}
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit(handleSignIn)}>
         <div className="grid gap-2">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
               Email
             </Label>
             <Input
+              {...register('email')}
               id="email"
               placeholder="name@example.com"
               type="email"
@@ -92,8 +65,6 @@ export default function UserLoginForm({ className, ...props }: UserAuthFormProps
               autoCorrect="off"
               disabled={isLoading}
               name="email"
-              value={data.email}
-              onChange={handleChange}
             />
           </div>
           <div className="grid gap-1">
@@ -101,6 +72,7 @@ export default function UserLoginForm({ className, ...props }: UserAuthFormProps
               Password
             </Label>
             <Input
+              {...register('password')}
               id="password"
               placeholder="senha"
               type="password"
@@ -108,8 +80,6 @@ export default function UserLoginForm({ className, ...props }: UserAuthFormProps
               autoCorrect="off"
               disabled={isLoading}
               name="password"
-              value={data.password}
-              onChange={handleChange}
             />
           </div>
           <Button disabled={isLoading} className="mt-3">
