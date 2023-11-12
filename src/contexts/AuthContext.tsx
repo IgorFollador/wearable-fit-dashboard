@@ -1,10 +1,10 @@
 "use client"
 
 import { createContext, useEffect, useState } from "react";
-import { setCookie, parseCookies } from "nookies";
+import { parseCookies, setCookie } from "nookies";
 import { useRouter } from 'next/navigation'
 
-import { signInRequest } from "@/lib/api";
+import { recoverUserInformation, signInRequest } from "@/lib/api";
 
 type User = {
     userName: string;
@@ -30,30 +30,41 @@ type SignInResponseData = {
 
 export const AuthContext = createContext({} as AuthContextType);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children }: { children: React.ReactNode }) {    
     const [user, setUser] = useState<User | null>(null);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+
     const router = useRouter()
 
-    const isAuthenticated = !!user;
-
     useEffect(() => {
-        const { 'weareablefit.token': token } = parseCookies();
+        const { 'wearablefit.token': token } = parseCookies();
 
-        if (!token) {
-            router.push('/login')
+        if (token) {
+            setIsAuthenticated(true);
+            recoverUserInformation().then(response => {
+            const user: User = {
+                userName: response.userName,
+                isProfessional: response.isProfessional
+            }
+                setUser(user);
+            })
+        } else {
+            setIsAuthenticated(false);
         }
-
-    }), [];
+      }, [])
 
     async function signIn(data: SignInRequestData) {
         const { token, userName, isProfessional }: SignInResponseData  = await signInRequest(data);
 
-        setCookie(undefined, 'weareablefit.token', token, {
-            maxAge: 60 * 60 * 24, // 24 hours
-        })
-
-        setUser({ userName, isProfessional });
-        router.push('/dashboard')
+        if (token) {
+            setCookie(undefined, 'wearablefit.token', token, {
+                maxAge: 60 * 60 * 24, // 24 hours
+            })
+    
+            setIsAuthenticated(true);
+            setUser({ userName, isProfessional });
+            router.push('/dashboard')
+        }
     }
 
     return (

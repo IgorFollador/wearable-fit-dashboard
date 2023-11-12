@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 
+import { AuthWrapper } from '@/components/AuthWrapper';
 import { MainNav } from './components/main-nav';
 import { UserNav } from './components/user-nav';
 import logo from '@/../public/assets/icon.svg';
@@ -17,6 +18,7 @@ interface DashboardSettingsProps {
 export default function DashboardLayout({ children }: DashboardSettingsProps) {
   
   return (
+    <AuthWrapper>
       <main style={ {height:'100%'} }>
         <div className="hidden flex-col md:flex">
           <div>
@@ -40,5 +42,6 @@ export default function DashboardLayout({ children }: DashboardSettingsProps) {
           </div>
         </div>
       </main>
+    </AuthWrapper>
   )
 }

@@ -33,9 +33,10 @@ export default function UserLoginForm({ className, ...props }: UserAuthFormProps
 
     } catch (error) {
       console.log(error);
+      alert("Email ou senha incorretos!");
       toast({
         title: "Ooops...",
-        description: "Email ou senha incorretas!",
+        description: "Email ou senha incorretos!",
         variant: "destructive",
         action: (
           <ToastAction altText="ente Novamente">Tente Novamente</ToastAction>
