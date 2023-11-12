@@ -1,6 +1,8 @@
 "use client";
 import { cn } from "@/lib/utils";
 import React, { useContext, useState } from "react";
+import { useForm } from "react-hook-form";
+
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -8,8 +10,6 @@ import { Icons } from "@/components/icons";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { AuthContext } from "../contexts/AuthContext";
-
-import { useForm } from "react-hook-form";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -23,7 +23,7 @@ export default function UserLoginForm({ className, ...props }: UserAuthFormProps
   const { signIn } = useContext(AuthContext);
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  
+
   async function handleSignIn(data: FormValues) {
     setIsLoading(true);
     

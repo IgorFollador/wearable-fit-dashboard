@@ -1,20 +1,22 @@
 "use client"
 
 import { createContext, useEffect, useState } from "react";
-import { parseCookies, setCookie } from "nookies";
+import { parseCookies, setCookie, destroyCookie } from "nookies";
 import { useRouter } from 'next/navigation'
 
-import { recoverUserInformation, signInRequest } from "@/lib/api";
+import { SignInResponseData, recoverUserInformation, signInRequest } from "@/lib/api";
 
 type User = {
     userName: string;
+    email: string;
     isProfessional: boolean;
 }
 
 type AuthContextType = {
-    user: User | null;
+    user: User;
     isAuthenticated: boolean;
     signIn: (data: SignInRequestData) => Promise<void>;
+    signOut: () => void;
 }
 
 type SignInRequestData = {
@@ -22,16 +24,15 @@ type SignInRequestData = {
     password: string;
 }
 
-type SignInResponseData = {
-    token: string;
-    userName: string;
-    isProfessional: boolean;
-}
-
 export const AuthContext = createContext({} as AuthContextType);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {    
-    const [user, setUser] = useState<User | null>(null);
+export function AuthProvider({ children }: { children: React.ReactNode }) {   
+    const defaultUser = {
+        userName: "", 
+        email:"", 
+        isProfessional: false
+    } 
+    const [user, setUser] = useState<User>(defaultUser);
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
 
     const router = useRouter()
@@ -44,6 +45,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             recoverUserInformation().then(response => {
             const user: User = {
                 userName: response.userName,
+                email: response.email,
                 isProfessional: response.isProfessional
             }
                 setUser(user);
@@ -54,7 +56,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }, [])
 
     async function signIn(data: SignInRequestData) {
-        const { token, userName, isProfessional }: SignInResponseData  = await signInRequest(data);
+        const { token, userName, email, isProfessional }: SignInResponseData  = await signInRequest(data);
 
         if (token) {
             setCookie(undefined, 'wearablefit.token', token, {
@@ -62,13 +64,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             })
     
             setIsAuthenticated(true);
-            setUser({ userName, isProfessional });
-            router.push('/dashboard')
+            setUser({ userName, email, isProfessional });
+            router.push('/dashboard');
         }
     }
 
+    function signOut() {
+        destroyCookie(undefined, 'wearablefit.token');
+        setIsAuthenticated(false);
+        setUser(defaultUser);
+        router.push('/');
+    }
+
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, signIn }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
             {children}
         </AuthContext.Provider>
     )

@@ -1,6 +1,6 @@
 "use client"
 
-import { ReactNode, useContext, useEffect } from 'react';
+import { ReactNode, useContext } from 'react';
 import { useRouter } from 'next/navigation'
 
 import { AuthContext } from '../contexts/AuthContext';
@@ -14,18 +14,11 @@ export function AuthWrapper({ children }: AuthWrapperProps) {
   const router = useRouter();
 
   console.log("isAuthenticated: " + isAuthenticated);
-  console.log("isProfessional: " + user?.isProfessional)
+  console.log("isProfessional: " + user.isProfessional)
 
   if (!isAuthenticated) {
     router.push('/login');
   }
-
-  // useEffect(() => {
-  //   console.log(isAuthenticated);
-  //   if (!isAuthenticated) {
-  //     router.push('/login');
-  //   }
-  // }, [isAuthenticated, router]);
 
   return isAuthenticated ? <>{children}</> : null;
 }

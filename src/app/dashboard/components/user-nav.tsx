@@ -1,3 +1,8 @@
+"use client"
+
+import Link from "next/link";
+import { useContext } from "react";
+
 import {
   Avatar,
   AvatarFallback,
@@ -13,9 +18,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Link from "next/link";
+import { AuthContext } from "@/contexts/AuthContext";
 
 export function UserNav() {
+  const { user, signOut } = useContext(AuthContext);
+
+  const avatarFallback = (userName: string | undefined) => {
+    if (userName) {
+      return userName.split(' ').map(x => x[0]).join('')
+    }
+    return "U";
+  }
+
+  async function handleLogout() {
+    signOut();
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -23,7 +41,7 @@ export function UserNav() {
           <Avatar className="h-8 w-8">
             {/* TODO: Get user avatar image */}
             <AvatarImage src="" alt="@shadcn" />
-            <AvatarFallback>IF</AvatarFallback>
+            <AvatarFallback>{avatarFallback(user!.userName)}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -31,24 +49,23 @@ export function UserNav() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
-              Igor Follador
+              {user!.userName}
             </p>
             <p className="text-xs leading-none text-muted-foreground">
-              igorledf@gmail.com
+              {user!.email}
             </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+        <Link href="/dashboard/profile" >
           <DropdownMenuItem>
-            <Link
-            href="/dashboard/profile" >
-              Perfil
-            </Link>
+            Perfil
           </DropdownMenuItem>
+        </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>
           Log out
         </DropdownMenuItem>
       </DropdownMenuContent>

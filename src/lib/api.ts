@@ -6,14 +6,16 @@ type SignInRequestData = {
   password: string;
 }
 
-type SignInResponseData = {
+export type SignInResponseData = {
   token: string;
+  email: string;
   userName: string;
   isProfessional: boolean;
 }
 
-type recoverUserInformationResponseData = {
+export type RecoverUserInformationResponseData = {
   userName: string;
+  email: string;
   isProfessional: boolean;
 }
 
@@ -44,7 +46,7 @@ export async function signInRequest(data: SignInRequestData) {
 }
 
 export async function recoverUserInformation() {
-  const response = await api.get<recoverUserInformationResponseData>("/users/recoverInformation");
+  const response = await api.get<RecoverUserInformationResponseData>("/users/recoverInformation");
   return response.data;
 }
 
