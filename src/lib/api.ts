@@ -1,5 +1,7 @@
+"use client"
+
 import axios from 'axios';
-import { parseCookies } from "nookies";
+import { parseCookies } from 'nookies';
 
 type SignInRequestData = {
   email: string;
@@ -27,7 +29,7 @@ const { 'wearablefit.token': token } = parseCookies();
 
 api.interceptors.request.use(config => {
   if (token) {
-    config.headers["Authorization"] = `Bearer ${token}`;
+    config.headers["authorization"] = `Bearer ${token}`;
   }
 
   return config;
@@ -37,7 +39,6 @@ export async function signInRequest(data: SignInRequestData) {
   try {
     const response = await api.post<SignInResponseData>("/auth", data);
 
-    api.defaults.headers.common["authorization"] = `Bearer ${response.data.token}`;
 
     return response.data;
   } catch (error) {
@@ -49,5 +50,10 @@ export async function recoverUserInformation() {
   const response = await api.get<RecoverUserInformationResponseData>("/users/recoverInformation");
   return response.data;
 }
+
+// export async function getAllCustomers() {
+//   const response = await api.get("/users/clients");
+//   return response.data;
+// }
 
 export default api;
