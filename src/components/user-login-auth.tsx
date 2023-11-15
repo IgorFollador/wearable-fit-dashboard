@@ -1,7 +1,8 @@
 "use client";
 import { cn } from "@/lib/utils";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { parseCookies } from "nookies";
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -10,6 +11,7 @@ import { Icons } from "@/components/icons";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { AuthContext } from "../contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -19,10 +21,16 @@ type FormValues = {
 }
 
 export default function UserLoginForm({ className, ...props }: UserAuthFormProps) {
+  const router = useRouter();
   const { register, handleSubmit } = useForm();
   const { signIn } = useContext(AuthContext);
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const { 'wearablefit.token': token } = parseCookies();
+    if (token) router.push("/dashboard");
+  },[]);
 
   async function handleSignIn(data: FormValues) {
     setIsLoading(true);
@@ -30,16 +38,18 @@ export default function UserLoginForm({ className, ...props }: UserAuthFormProps
     try {
       console.log(data);
       await signIn(data);
+      toast({
+        description: "Usuário autenticado!",
+      });
 
     } catch (error) {
       console.log(error);
-      alert("Email ou senha incorretos!");
       toast({
         title: "Ooops...",
         description: "Email ou senha incorretos!",
         variant: "destructive",
         action: (
-          <ToastAction altText="ente Novamente">Tente Novamente</ToastAction>
+          <ToastAction altText="Tente Novamente">Tente Novamente</ToastAction>
         ),
       });
     }

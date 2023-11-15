@@ -1,4 +1,4 @@
-import { Metadata } from "next"
+import { Metadata } from "next";
 
 import {
   Card,
@@ -6,13 +6,13 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Tabs,
   TabsContent
-} from "@/components/ui/tabs"
-import { Overview } from "@/app/dashboard/components/overview"
-import { Notifications } from "@/app/dashboard/components/notifications"
+} from "@/components/ui/tabs";
+import { Overview } from "@/app/dashboard/components/overview";
+import { Notifications } from "@/app/dashboard/components/notifications";
 
 export const metadata: Metadata = {
   title: "Dashboard - Wearable FIT",
