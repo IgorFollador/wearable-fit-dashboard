@@ -1,5 +1,9 @@
+"use client"
 
-export default function NotificationsCustomerPage({ params }: { params: { id: number } }) {
+import { Separator } from "@radix-ui/react-dropdown-menu";
+import { GoalsForm } from "./components/goals-form";
+
+export default function HelathGoalsCustomerPage({ params }: { params: { id: number } }) {
 
     return (
         <>
@@ -8,6 +12,8 @@ export default function NotificationsCustomerPage({ params }: { params: { id: nu
             <p className="text-muted-foreground">
                 Visualize ou edite as metas do seu aluno.
             </p>
+            <Separator />
+            <GoalsForm />
           </div>
         </>
     );
