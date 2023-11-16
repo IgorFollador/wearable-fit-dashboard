@@ -18,7 +18,7 @@ const goalsFormSchema = z.object({
   
   type GoalsFormValues = z.infer<typeof goalsFormSchema>;
 
-export function GoalsForm() {
+export function GoalsForm(params: {id: string | number}) {
   const form = useForm<GoalsFormValues>({
     resolver: zodResolver(goalsFormSchema),
     defaultValues: {
@@ -115,7 +115,7 @@ export function GoalsForm() {
           </div>
         </div>
   
-        <Button type="submit">Salvar Metas</Button>
+        <Button type="submit" disabled={params.id == "me" ? true : false}>Salvar Metas</Button>
       </form>
     </Form>
   );  

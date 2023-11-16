@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { parseCookies } from "nookies";
 
@@ -15,24 +15,25 @@ import { useRouter } from "next/navigation";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-type FormValues = {
-  email: string
-  password: string
-}
-
 export default function UserLoginForm({ className, ...props }: UserAuthFormProps) {
   const router = useRouter();
   const { register, handleSubmit } = useForm();
-  const { signIn } = useContext(AuthContext);
+  const { user, signIn } = useContext(AuthContext);
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const { 'wearablefit.token': token } = parseCookies();
-    if (token) router.push("/dashboard");
+    if (token) {
+      if (user.isProfessional) {
+        router.push("/dashboard");
+      } else {
+        router.push("/dashboard/customers/edit/me");
+      }
+    }
   },[]);
 
-  async function handleSignIn(data: FormValues) {
+  async function handleSignIn(data: any) {
     setIsLoading(true);
     
     try {

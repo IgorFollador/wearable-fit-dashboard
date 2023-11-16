@@ -2,8 +2,9 @@
 
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { AccountForm } from "./account-form";
+import { useParams } from "next/navigation";
 
-export default function EditCustomerPage({ params }: { params: { id: number } }) {
+export default function EditCustomerPage(parent: {params: {id: number | string}}) {
     
     return (
         <>
@@ -13,7 +14,7 @@ export default function EditCustomerPage({ params }: { params: { id: number } })
                     Dados do pessoais do usuário.
                 </p>
                 <Separator />
-                <AccountForm />
+                <AccountForm id={parent.params.id} />
             </div>
         </>
     );

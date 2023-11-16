@@ -3,7 +3,7 @@
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { GoalsForm } from "./components/goals-form";
 
-export default function HelathGoalsCustomerPage({ params }: { params: { id: number } }) {
+export default function HelathGoalsCustomerPage(parent: {params: {id: number | string}}) {
 
     return (
         <>
@@ -13,7 +13,7 @@ export default function HelathGoalsCustomerPage({ params }: { params: { id: numb
                 Visualize ou edite as metas do seu aluno.
             </p>
             <Separator />
-            <GoalsForm />
+            <GoalsForm id={parent.params.id} />
           </div>
         </>
     );

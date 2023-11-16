@@ -35,7 +35,7 @@ const lineData = (data, label, color) => ({
   ]
 });
 
-export function CardsMetric() {
+export function CardsMetric(params: {selectedDate: Date, id: string | number}) {
   return (
     <div className="w-full grid grid-cols-2 gap-4">
       <Card className="w-full">

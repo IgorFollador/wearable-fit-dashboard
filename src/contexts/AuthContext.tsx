@@ -43,11 +43,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (token) {
             setIsAuthenticated(true);
             recoverUserInformation().then(response => {
-            const user: User = {
-                userName: response.userName,
-                email: response.email,
-                isProfessional: response.isProfessional
-            }
+                const user: User = {
+                    userName: response.userName,
+                    email: response.email,
+                    isProfessional: response.isProfessional
+                }
+                console.log(response, user);
                 setUser(user);
             })
         } else {
@@ -65,7 +66,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     
             setIsAuthenticated(true);
             setUser({ userName, email, isProfessional });
-            router.push('/dashboard');
+            
+            if (isProfessional) {
+                router.push('/dashboard');
+            } else {
+                router.push('/dashboard/customers/edit/me')
+            }
         }
     }
 

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { DateSelector } from "./components/date-selector";
 import { CardsMetric } from "./components/metric";
-  export default function HealthInformationPage({ params }: { params: { id: number } }) {
+  export default function HealthInformationPage(parent: { params: { id: number } }) {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
 
     const handleDateChange = (newDate) => {
@@ -23,7 +23,7 @@ import { CardsMetric } from "./components/metric";
             <DateSelector onDateChange={handleDateChange} />
           </div>
           <div className="w-full">
-            <CardsMetric selectedDate={selectedDate} />
+            <CardsMetric selectedDate={selectedDate} id={parent.params.id}/>
           </div>
         </>
     );

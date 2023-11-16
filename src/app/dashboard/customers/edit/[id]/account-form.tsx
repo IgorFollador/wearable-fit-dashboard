@@ -26,6 +26,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { toast } from "@/components/ui/use-toast";
+import api from "@/lib/api";
+import { useEffect, useState } from "react";
 
 const accountFormSchema = z.object({
   firstName: z
@@ -42,39 +44,73 @@ const accountFormSchema = z.object({
   sex: z
     .string()
     .max(1, "O sexo deve ser um único caractere (M ou F).")
-    .refine((val) => ['M', 'F'].includes(val), "Sexo deve ser 'M' para masculino ou 'F' para feminino."),
-  birthdate: z.date({
+    .refine((val) => ['m', 'f'].includes(val), "Sexo deve ser 'm' para masculino ou 'f' para feminino."),
+  birthDate: z.date({
     required_error: "A data de nascimento é obrigatória.",
   }),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>
 
-const defaultValues: Partial<AccountFormValues> = {
-  // ...valores existentes
-  firstName: "Seu nome",
-  lastName: "Seu sobrenome",
-  email: "seuemail@example.com",
-  sex: "M", // ou "F"
-  birthdate: new Date("2000-01-01"), // Uma data de exemplo
-}
+export function AccountForm(params: {id: string | number}) {
 
-export function AccountForm() {
   const form = useForm<AccountFormValues>({
-    resolver: zodResolver(accountFormSchema),
-    defaultValues,
-  })
+    resolver: zodResolver(accountFormSchema)
+  });
+
+  const disableInputs = params.id == "me" ? false : true
+
+  useEffect(() => {
+    const getData = async () => {
+        try {
+          let response;
+          if (params.id === 'me') {
+            response = await api.get('/users');
+          } else {
+            response = await api.get(`/users/${params.id}`);
+          }
+
+          // Ajustar a data para evitar problemas com fuso horário
+          let adjustedDate;
+          if (response.data.birthDate) {
+            const birthDate = response.data.birthDate;
+            adjustedDate = new Date(birthDate + 'T00:00:00'); // Adiciona o horário
+          }
+
+          const formattedData = {
+            ...response.data,
+            dob: adjustedDate
+          };
+
+          form.reset(formattedData);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    getData();
+  }, [])
+
 
   function onSubmit(data: AccountFormValues) {
-    console.log('teste');
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+    try {
+      let response: any;
+      if (params.id === 'me') {
+        response = api.put('/users');
+      } else {
+        response = api.put(`/users/${params.id}`);
+      }
+
+      toast({
+        description: `Dados do usuario ${response.id} alterados!` 
+      });
+    } catch (error: any) {
+      toast({
+        title: "Ops... ocorreu um erro!",
+        variant: "destructive",
+        description: error.getMessage()
+      });
+    }
   }
 
   return (
@@ -82,27 +118,27 @@ export function AccountForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormItem>
           <FormLabel>Primeiro Nome</FormLabel>
-          <Input {...form.register("firstName")} placeholder="Seu primeiro nome" />
+          <Input {...form.register("firstName")} placeholder="Seu primeiro nome" disabled={disableInputs}/>
           <FormMessage name="firstName" />
         </FormItem>
   
         <FormItem>
           <FormLabel>Sobrenome</FormLabel>
-          <Input {...form.register("lastName")} placeholder="Seu sobrenome" />
+          <Input {...form.register("lastName")} placeholder="Seu sobrenome" disabled={disableInputs}/>
           <FormMessage name="lastName" />
         </FormItem>
 
         <FormItem>
           <FormLabel>E-mail</FormLabel>
-          <Input {...form.register("email")} placeholder="Seu e-mail" />
+          <Input {...form.register("email")} placeholder="Seu e-mail" disabled={disableInputs}/>
           <FormMessage name="email" />
         </FormItem>
   
         <FormItem>
           <FormLabel className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sexo</FormLabel>
-          <select {...form.register("sex")} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-            <option value="M">Masculino</option>
-            <option value="F">Feminino</option>
+          <select {...form.register("sex")} disabled={disableInputs} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option value="m">Masculino</option>
+            <option value="f">Feminino</option>
           </select>
           <FormMessage name="sex" />
         </FormItem>
@@ -122,6 +158,7 @@ export function AccountForm() {
                         "w-[240px] pl-3 text-left font-normal",
                         !field.value && "text-muted-foreground"
                       )}
+                      disabled={disableInputs}
                     >
                       {field.value ? (
                         format(field.value, "dd/MM/yyyy", { locale: ptBR })
@@ -136,7 +173,7 @@ export function AccountForm() {
                   <Calendar
                     locale={ptBR}
                     mode="single"
-                    selected={field.value}
+                    value={field.value}
                     onSelect={field.onChange}
                     disabled={(date) =>
                       date > new Date() || date < new Date("1900-01-01")
@@ -151,8 +188,8 @@ export function AccountForm() {
             </FormItem>
           )}
         />
-          
-        <Button type="submit" disabled={false} >Atualizar</Button>
+        
+        <Button type="submit" disabled={disableInputs} >Atualizar</Button>
       </form>
     </Form>
   );

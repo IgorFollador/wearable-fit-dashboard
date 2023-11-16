@@ -1,6 +1,5 @@
 import { Separator } from "@/components/ui/separator";
 import { SidebarNav } from "./components/sidebar-nav";
-import { useRouter } from "next/router";
 
 const sidebarNavItems = [
   {
@@ -29,7 +28,7 @@ interface EditCustomerLayoutProps {
 }
 
 export default function EditCustomerLayout({ children, params }: EditCustomerLayoutProps) {
-
+  
   return (
         <>
             <div className="space-y-0.5">

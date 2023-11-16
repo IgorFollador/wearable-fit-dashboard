@@ -29,6 +29,7 @@ const { 'wearablefit.token': token } = parseCookies();
 
 api.interceptors.request.use(config => {
   if (token) {
+    config.headers["Cache-Control"] = "no-cache",
     config.headers["authorization"] = `Bearer ${token}`;
   }
 
@@ -50,10 +51,5 @@ export async function recoverUserInformation() {
   const response = await api.get<RecoverUserInformationResponseData>("/users/recoverInformation");
   return response.data;
 }
-
-// export async function getAllCustomers() {
-//   const response = await api.get("/users/clients");
-//   return response.data;
-// }
 
 export default api;
