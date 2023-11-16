@@ -5,7 +5,7 @@ import { columns } from "./components/columns";
 import { DataTable } from "./components/data-table";
 import { useEffect, useState } from "react";
 
-export default async function CustomersPage() {
+export default function CustomersPage() {
     const [customers, setCustomers] = useState([]);
     useEffect(() => {
 

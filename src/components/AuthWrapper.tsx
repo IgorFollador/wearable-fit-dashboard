@@ -11,16 +11,22 @@ interface AuthWrapperProps {
 
 export function AuthWrapper({ children }: AuthWrapperProps) {
   const { isAuthenticated, user } = useContext(AuthContext);
+
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname = usePathname() || "";
 
   useEffect(() => {
     console.log("isAuthenticated: " + isAuthenticated);
-    console.log("isProfessional: " + user.isProfessional)
+    console.log("isProfessional: " + user.isProfessional);
   
     if (!isAuthenticated) {
       router.push('/login');
-    } else if (!user.isProfessional && isAuthenticated && !pathname.includes('/dashboard/customers/edit/me')) {
+    } else if (
+      user.email && 
+      !user.isProfessional && 
+      isAuthenticated && 
+      !pathname.includes('/dashboard/customers/edit/me')
+      ) {
       router.push('/dashboard/customers/edit/me');
     }
   }, [pathname]);

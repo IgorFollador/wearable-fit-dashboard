@@ -30,8 +30,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const defaultUser = {
         userName: "", 
         email:"", 
-        isProfessional: false
+        isProfessional: true
     } 
+
     const [user, setUser] = useState<User>(defaultUser);
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
 
@@ -48,7 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     email: response.email,
                     isProfessional: response.isProfessional
                 }
-                console.log(response, user);
+
                 setUser(user);
             })
         } else {

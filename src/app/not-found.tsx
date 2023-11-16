@@ -11,12 +11,13 @@ export default function NotFoundPage() {
             <Image
               src={logo}
               alt="Wearable FIT Icon"
-              width={200}
+              width={150}
               className="m-auto"
             />
           </div>
         </Link>
         <p className="text-xl mt-4">Ops... Página não encontrada!</p>
+        <Link href="/">Voltar para a Home</Link>
       </div>
     </div>
   );
