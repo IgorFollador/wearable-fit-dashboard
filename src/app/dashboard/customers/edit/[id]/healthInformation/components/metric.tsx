@@ -10,8 +10,8 @@ import { Doughnut, Line } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, LineElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement);
 
-const doughnutData = (data, colors) => ({
-  labels: ['Atingido', 'Restante'],
+const doughnutData = (data: any, colors: string[]) => ({
+  labels: ['Atingido', 'Meta'],
   datasets: [
     {
       data,
@@ -22,7 +22,7 @@ const doughnutData = (data, colors) => ({
   ],
 });
 
-const lineData = (data, label, color) => ({
+const lineData = (data: any, label: string, color: string) => ({
   labels: ['00h', '04h', '08h', '12h', '16h', '20h', '24h'],
   datasets: [
     {
@@ -47,7 +47,7 @@ export function CardsMetric(params: {selectedDate: Date, id: string | number}) {
         </CardHeader>
         <CardContent className="pb-4">
           <div className="h-[200px] w-full flex justify-center items-center">
-            <Doughnut data={doughnutData([1200, 300], ['rgba(255, 50, 50, 1)', 'rgba(255, 50, 50, 0.1)'])} />
+            <Doughnut data={doughnutData([2300, 2500], ['rgba(255, 50, 50, 1)', 'rgba(255, 50, 50, 0.1)'])} />
           </div>
         </CardContent>
       </Card>
@@ -77,7 +77,7 @@ export function CardsMetric(params: {selectedDate: Date, id: string | number}) {
         </CardHeader>
         <CardContent className="pb-4 flex justify-center items-center">
           <div className="h-[200px] w-full flex justify-center items-center">
-            <Doughnut data={doughnutData([7500, 2500], ['rgba(100, 200, 150, 1)', 'rgba(100, 200, 150, 0.1)'])} />
+            <Doughnut data={doughnutData([3235, 5000], ['rgba(100, 200, 150, 1)', 'rgba(100, 200, 150, 0.1)'])} />
           </div>
         </CardContent>
       </Card>
@@ -91,12 +91,11 @@ export function CardsMetric(params: {selectedDate: Date, id: string | number}) {
         </CardHeader>
         <CardContent className="pb-4 flex justify-center items-center">
           <div className="h-[200px] w-full flex justify-center items-center">
-            <Doughnut data={doughnutData([2, 6], ['rgba(106, 90, 205, 1)', 'rgba(106, 90, 205, 0.1)'])} />
+            <Doughnut data={doughnutData([4, 8], ['rgba(106, 90, 205, 1)', 'rgba(106, 90, 205, 0.1)'])} />
           </div>
         </CardContent>
       </Card>
 
-      {/* Continue adicionando cards conforme necessário */}
     </div>
   )
 }
