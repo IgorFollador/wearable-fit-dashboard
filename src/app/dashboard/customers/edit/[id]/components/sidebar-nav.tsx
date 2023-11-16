@@ -28,10 +28,10 @@ export function SidebarNav({ className, items, customerId, ...props }: SidebarNa
       {items.map((item) => (
         <Link
           key={item.href}
-          href={"/dashboard/customers/edit/" + customerId + item.href }
+          href={`/dashboard/customers/edit/${customerId}${item.href}`}
           className={cn(
             buttonVariants({ variant: "ghost" }),
-            pathname === item.href
+            pathname === `/dashboard/customers/edit/${customerId}${item.href}`
               ? "bg-muted hover:bg-muted"
               : "hover:bg-transparent hover:underline",
             "justify-start"

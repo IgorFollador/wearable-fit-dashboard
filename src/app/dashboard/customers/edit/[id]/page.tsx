@@ -1,8 +1,7 @@
 "use client"
 
 import { Separator } from "@radix-ui/react-dropdown-menu";
-import { AccountForm } from "./account-form";
-import { useParams } from "next/navigation";
+import { AccountForm } from "./components/account-form";
 
 export default function EditCustomerPage(parent: {params: {id: number | string}}) {
     
