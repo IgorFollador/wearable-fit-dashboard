@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Form, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -44,74 +44,122 @@ export function GoalsForm(params: {id: string | number}) {
         <div className="flex flex-wrap -mx-2">
           {/* Taxa Metabólica Basal */}
           <div className="w-1/2 px-2">
-            <FormItem>
-              <FormLabel>Taxa Metabólica Basal (kcal)</FormLabel>
-              <Input {...form.register("basalMetabolicRate")} type="number" min="0" />
-              <FormMessage name="basalMetabolicRate" />
-            </FormItem>
+            <FormField
+              control={form.control}
+              name="basalMetabolicRate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Taxa Metabólica Basal (kcal)</FormLabel>
+                  <Input {...field} type="number" min="0" />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
   
           {/* Objetivo de Calorias */}
           <div className="w-1/2 px-2">
-            <FormItem>
-              <FormLabel>Meta de Calorias (kcal)</FormLabel>
-              <Input {...form.register("calorieGoal")} type="number" min="0" />
-              <FormMessage name="calorieGoal" />
-            </FormItem>
+            <FormField
+              control={form.control}
+              name="calorieGoal"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Meta de Calorias (kcal)</FormLabel>
+                  <Input {...field} type="number" min="0" />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
   
           {/* Tempo de Sono */}
           <div className="w-1/2 px-2">
-            <FormItem>
-              <FormLabel>Tempo de Sono (em horas)</FormLabel>
-              <Input {...form.register("sleepTime")} type="number" min="0" />
-              <FormMessage name="sleepTime" />
-            </FormItem>
+            <FormField
+              control={form.control}
+              name="sleepTime"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tempo de Sono (em horas)</FormLabel>
+                  <Input {...field} type="number" min="0" />
+                  <FormMessage  />
+                </FormItem>
+              )}
+            />
           </div>
   
           {/* Objetivo de Passos */}
           <div className="w-1/2 px-2">
-            <FormItem>
-              <FormLabel>Meta de Passos</FormLabel>
-              <Input {...form.register("stepGoal")} type="number" min="0" />
-              <FormMessage name="stepGoal" />
-            </FormItem>
+            <FormField
+              control={form.control}
+              name="stepGoal"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Meta de Passos</FormLabel>
+                  <Input {...field} type="number" min="0" />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
   
           {/* Tempo de Atividade Física */}
           <div className="w-1/2 px-2">
-            <FormItem>
-              <FormLabel>Meta de Tempo de Atividade Física (em minutos)</FormLabel>
-              <Input {...form.register("physicalActivityTimeGoal")} type="number" min="0" />
-              <FormMessage name="physicalActivityTimeGoal" />
-            </FormItem>
+            <FormField
+              control={form.control}
+              name="physicalActivityTimeGoal"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Meta de Tempo de Atividade Física (em minutos)</FormLabel>
+                  <Input {...field} type="number" min="0" />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
   
           {/* Carboidratos */}
           <div className="w-1/2 px-2">
-            <FormItem>
-              <FormLabel>Meta de Carboidratos (em gramas)</FormLabel>
-              <Input {...form.register("carbohydrate")} type="number" min="0" />
-              <FormMessage name="carbohydrate" />
-            </FormItem>
+            <FormField
+                control={form.control}
+                name="carbohydrate"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Meta de Carboidratos (em gramas)</FormLabel>
+                    <Input {...field} type="number" min="0" />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
           </div>
   
           {/* Proteínas */}
           <div className="w-1/2 px-2">
-            <FormItem>
-              <FormLabel>Meta de Proteínas (em gramas)</FormLabel>
-              <Input {...form.register("protein")} type="number" min="0" />
-              <FormMessage name="protein" />
-            </FormItem>
+            <FormField
+              control={form.control}
+              name="protein"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Meta de Proteínas (em gramas)</FormLabel>
+                  <Input {...field} type="number" min="0" />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
   
           {/* Gorduras */}
           <div className="w-1/2 px-2">
-            <FormItem>
-              <FormLabel>Meta de Gorduras (em gramas)</FormLabel>
-              <Input {...form.register("fat")} type="number" min="0" />
-              <FormMessage name="fat" />
-            </FormItem>
+            <FormField
+              control={form.control}
+              name="fat"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Meta de Gorduras (em gramas)</FormLabel>
+                  <Input {...field} type="number" min="0" />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
         </div>
   

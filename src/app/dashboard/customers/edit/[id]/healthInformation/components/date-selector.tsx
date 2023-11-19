@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
 
-export const DateSelector = ({ onDateChange }) => {
+export const DateSelector = ({ onDateChange }: any) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
 
     useEffect(() => {
         onDateChange(selectedDate.toISOString().split('T')[0]);
     }, [selectedDate, onDateChange]);
 
-    const adjustWeek = (offset) => {
+    const adjustWeek = (offset: number) => {
         const newDate = new Date(selectedDate);
         newDate.setDate(newDate.getDate() + offset);
         setSelectedDate(newDate);
@@ -20,13 +20,13 @@ export const DateSelector = ({ onDateChange }) => {
         return d;
     });
 
-    const handleSpecificDateChange = (event) => {
+    const handleSpecificDateChange = (event: any) => {
         const [year, month, day] = event.target.value.split('-');
         const newDate = new Date(year, month - 1, day);
         setSelectedDate(newDate);
     };
 
-    const formatDate = (date, options) => {
+    const formatDate = (date: Date, options: any) => {
         return date.toLocaleDateString('pt-BR', options);
     };
 

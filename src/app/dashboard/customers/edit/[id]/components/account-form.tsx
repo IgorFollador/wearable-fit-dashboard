@@ -116,36 +116,59 @@ export function AccountForm(params: {id: string | number}) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormItem>
-          <FormLabel>Primeiro Nome</FormLabel>
-          <Input {...form.register("firstName")} placeholder="Seu primeiro nome" disabled={disableInputs}/>
-          <FormMessage name="firstName" />
-        </FormItem>
-  
-        <FormItem>
-          <FormLabel>Sobrenome</FormLabel>
-          <Input {...form.register("lastName")} placeholder="Seu sobrenome" disabled={disableInputs}/>
-          <FormMessage name="lastName" />
-        </FormItem>
-
-        <FormItem>
-          <FormLabel>E-mail</FormLabel>
-          <Input {...form.register("email")} placeholder="Seu e-mail" disabled={disableInputs}/>
-          <FormMessage name="email" />
-        </FormItem>
-  
-        <FormItem>
-          <FormLabel className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sexo</FormLabel>
-          <select {...form.register("sex")} disabled={disableInputs} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-            <option value="m">Masculino</option>
-            <option value="f">Feminino</option>
-          </select>
-          <FormMessage name="sex" />
-        </FormItem>
-  
         <FormField
           control={form.control}
-          name="dob"
+          name="firstName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Primeiro Nome</FormLabel>
+              <Input {...field} placeholder="Seu primeiro nome" disabled={disableInputs}/>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Sobrenome</FormLabel>
+              <Input {...field} placeholder="Seu sobrenome" disabled={disableInputs}/>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>E-mail</FormLabel>
+              <Input {...field} placeholder="Seu e-mail" disabled={disableInputs}/>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="sex"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sexo</FormLabel>
+              <select {...field} disabled={disableInputs} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option value="m">Masculino</option>
+                <option value="f">Feminino</option>
+              </select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="birthDate"
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Data de aniversário</FormLabel>
@@ -171,9 +194,9 @@ export function AccountForm(params: {id: string | number}) {
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
+                    {...field}
                     locale={ptBR}
                     mode="single"
-                    value={field.value}
                     onSelect={field.onChange}
                     disabled={(date) =>
                       date > new Date() || date < new Date("1900-01-01")

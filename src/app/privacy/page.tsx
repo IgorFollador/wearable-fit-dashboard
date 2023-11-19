@@ -17,14 +17,14 @@ export default function Terms() {
           <h1 className="text-center text-xl font-semibold tracking-tight">Política de Privacidade</h1>
           <div>
             <p className="text-justify">
-              Esta Política de Privacidade descreve como a aplicação "Wearable Fit" coleta, utiliza e protege informações pessoais dos usuários. Ao utilizar nossa aplicação, você concorda com as práticas descritas nesta política.
+              Esta Política de Privacidade descreve como a aplicação &ldquo;Wearable Fit&ldquo; coleta, utiliza e protege informações pessoais dos usuários. Ao utilizar nossa aplicação, você concorda com as práticas descritas nesta política.
             </p>
           </div>
           <div>
             <h2 className="text-xl">1. Informações Coletadas</h2>
             <p className="text-justify">
               1.1. <strong>Dados do Google Fit</strong>: 
-              A aplicação "Wearable Fit" obtém informações da conta Google conectada, incluindo dados de saúde e fitness do Google Fit API. Esses dados podem incluir informações sobre atividade física, batimentos cardíacos, passos, entre outros.
+              A aplicação &ldquo;Wearable Fit&ldquo; obtém informações da conta Google conectada, incluindo dados de saúde e fitness do Google Fit API. Esses dados podem incluir informações sobre atividade física, batimentos cardíacos, passos, entre outros.
             </p>
           </div>
           <div>

@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Form, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -33,19 +33,30 @@ export function NotificationForm() {
           <h3 className="text-xl font-semibold mb-4">Criação de Notificação</h3>
 
           {/* Título */}
-          <FormItem>
-            <FormLabel>Título</FormLabel>
-            <Input {...form.register("title")} type="text" placeholder="Ex: Cuidado com o sono" className="w-full rounded-md" />
-            <FormMessage name="title" />
-          </FormItem>
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Título</FormLabel>
+                <Input {...field} type="text" placeholder="Ex: Cuidado com o sono" className="w-full rounded-md" />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           {/* Mensagem */}
-          <FormItem>
-            <FormLabel>Mensagem</FormLabel>
-            <textarea {...form.register("message")} rows={4} placeholder="Ex: Cuide para manter suas 8 horas de sono diárias e continuas" className="w-full rounded-md" />
-            <FormMessage name="message" />
-          </FormItem>
-
+          <FormField
+            control={form.control}
+            name="message"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Mensagem</FormLabel>
+                <textarea {...field} rows={4} placeholder="Ex: Cuide para manter suas 8 horas de sono diárias e continuas" className="w-full rounded-md" />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button type="submit" className="bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300">
             Enviar Notificação
           </Button>

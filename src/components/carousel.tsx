@@ -8,7 +8,7 @@ export function Carousel() {
   const slides = [image1, image2, image3];
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const goToSlide = (slideIndex) => {
+  const goToSlide = (slideIndex: number) => {
     setCurrentIndex(slideIndex);
   };
 
