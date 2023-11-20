@@ -10,15 +10,15 @@ interface Notification {
 const notifications = [
     {
       id: 1,
-      title: "Notificação 1",
-      message: "Esta é a mensagem da notificação 1.",
-      timestamp: "2023-11-16 10:00:00",
+      title: "Aumento do tempo de treino",
+      message: "Igor vamos aumentar seu tempo de treino de 60 para 90 min diários.",
+      timestamp: "2023-11-08 10:00:02",
     },
     {
       id: 2,
-      title: "Notificação 2",
-      message: "Esta é a mensagem da notificação 2.",
-      timestamp: "2023-11-16 11:00:00",
+      title: "Cuidado com o tempo sentado",
+      message: "Tente realizar mais caminhadas durante o dia.",
+      timestamp: "2023-11-16 11:22:09",
     },
   ];
 

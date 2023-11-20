@@ -32,7 +32,7 @@ export default function Login() {
           </div>
           <UserLoginForm />
           <p className="px-8 text-center text-sm text-muted-foreground">
-            Clicando para continuar, você aceita com nossos{" "}
+            Verifique nossos{" "}
             <Link
               href="/terms"
               className="underline underline-offset-4 hover:text-primary"

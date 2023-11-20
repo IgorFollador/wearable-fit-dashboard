@@ -5,15 +5,15 @@ import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
 const data = [
   {
     name: "Musculação",
-    total: Math.floor(68),
+    total: Math.floor(943),
   },
   {
     name: "Corrida",
-    total: Math.floor(92),
+    total: Math.floor(1344),
   },
   {
     name: "Outras atividades",
-    total: Math.floor(15),
+    total: Math.floor(200),
   }
 ]
 
