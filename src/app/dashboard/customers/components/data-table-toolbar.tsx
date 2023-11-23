@@ -6,6 +6,7 @@ import { Table } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "./data-table-view-options";
+import { BindCustomer } from "./bind-customer";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -38,14 +39,7 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-        <Button
-          variant="outline"
-          size="sm"
-          className="mr-5 hidden h-8 lg:flex"
-        >
-          <PlusIcon className="mr-2 h-4 w-4" />
-          Vincular aluno
-        </Button>
+      <BindCustomer />
       <DataTableViewOptions table={table} />
     </div>
   )
