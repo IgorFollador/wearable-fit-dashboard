@@ -25,7 +25,8 @@ export function AuthWrapper({ children }: AuthWrapperProps) {
       user.email && 
       !user.isProfessional && 
       isAuthenticated && 
-      !pathname.includes('/dashboard/customers/edit/me')
+      !pathname.includes('/dashboard/customers/edit/me') && 
+      !pathname.includes('/dashboard/settings')
       ) {
       router.push('/dashboard/customers/edit/me');
     }

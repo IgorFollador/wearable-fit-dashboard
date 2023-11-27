@@ -19,8 +19,11 @@ const Callback = ({ searchParams }: any) => {
 
   const handleAuthorizationCode = async (code: any, token: any) => {
     console.log(code, token);
+    const protocol = window.location.protocol;
+    const host = window.location.host;
+
     try {
-        const response = await api.get(`google/authorization?code=${code}`, {
+        const response = await api.get(`google/authorization?code=${code}&host=${protocol}//${host}/api`, {
             headers: {
                 Authorization: token
             }

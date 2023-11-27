@@ -184,7 +184,7 @@ export function AccountForm(params: {id: string | number}) {
                       disabled={disableInputs}
                     >
                       {field.value ? (
-                        format(field.value, "dd/MM/yyyy", { locale: ptBR })
+                        format(new Date(field.value), "dd/MM/yyyy", { locale: ptBR })
                       ) : (
                         <span>Escolha uma data</span>
                       )}
