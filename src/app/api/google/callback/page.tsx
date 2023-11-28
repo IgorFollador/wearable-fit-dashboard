@@ -1,6 +1,6 @@
 "use client"
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { parseCookies } from "nookies";
 import api from '@/lib/api';
@@ -10,7 +10,9 @@ const Callback = ({ searchParams }: any) => {
 
   useEffect(() => {
     const { 'wearablefit.token': token } = parseCookies();
-    const code = searchParams.code;
+    const searchParams = useSearchParams()
+    const code = searchParams.get('code')
+    
     console.log(searchParams);
     if (code) {
       handleAuthorizationCode(code, token);
