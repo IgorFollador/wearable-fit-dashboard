@@ -11,8 +11,10 @@ const Callback = ({ searchParams }: any) => {
   useEffect(() => {
     const { 'wearablefit.token': token } = parseCookies();
     const code = searchParams.code;
-
-    handleAuthorizationCode(code, token);
+    console.log(searchParams);
+    if (code) {
+      handleAuthorizationCode(code, token);
+    }
   }, []);
 
   const handleAuthorizationCode = async (code: any, token: any) => {
