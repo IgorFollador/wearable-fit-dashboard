@@ -3,12 +3,11 @@
 import { useState } from "react";
 import { DateSelector } from "./components/date-selector";
 import { CardsMetric } from "./components/metric";
-export default function HealthInformationPage(parent: { params: { id: number } }) {
+export default function HealthInformationPage(parent: { params: { id: number | string } }) {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
 
     const handleDateChange = (newDate: any) => {
       setSelectedDate(newDate);
-      // Aqui você pode adicionar lógica adicional se necessário
     };  
 
     return (
