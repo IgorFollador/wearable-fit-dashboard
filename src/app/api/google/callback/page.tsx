@@ -12,9 +12,7 @@ const Callback = ({ searchParams }: any) => {
     const { 'wearablefit.token': token } = parseCookies();
     const code = searchParams.code;
 
-    if (code) {
-      handleAuthorizationCode(code, token);
-    }
+    handleAuthorizationCode(code, token);
   }, []);
 
   const handleAuthorizationCode = async (code: any, token: any) => {
