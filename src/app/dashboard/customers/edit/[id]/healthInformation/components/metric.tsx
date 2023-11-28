@@ -37,10 +37,15 @@ const lineData = (labels: any, data: any, label: any, color: any) => ({
   ]
 });
 
+type IHealthData = {
+  current: any;
+  goal: any;
+}
+
 export function CardsMetric({ selectedDate, id }: { selectedDate: any, id: string | number }) {
-  const [caloricData, setCaloricData] = useState(null);
-  const [stepData, setStepData] = useState(null);
-  const [sleepData, setSleepData] = useState(null);
+  const [caloricData, setCaloricData] = useState<IHealthData | null>(null);
+  const [stepData, setStepData] = useState<IHealthData | null>(null);
+  const [sleepData, setSleepData] = useState<IHealthData | null>(null);
   const [heartRateData, setHeartRateData] = useState({});
 
   useEffect(() => {
@@ -76,7 +81,7 @@ export function CardsMetric({ selectedDate, id }: { selectedDate: any, id: strin
         </CardHeader>
         <CardContent className="pb-4">
           <div className="h-[200px] w-full flex justify-center items-center">
-            {isDataAvailable(caloricData) ? (
+            {isDataAvailable(caloricData) && caloricData ? (
               <Doughnut data={doughnutData([caloricData.current, caloricData.goal], ['rgba(255, 50, 50, 1)', 'rgba(255, 50, 50, 0.1)'])} />
             ) : (
               <p className="text-center">Sem acesso aos dados!</p>
@@ -94,7 +99,7 @@ export function CardsMetric({ selectedDate, id }: { selectedDate: any, id: strin
         </CardHeader>
         <CardContent className="pb-4 flex justify-center items-center">
           <div className="h-[200px] w-full flex justify-center items-center">
-            {isDataAvailable(heartRateData) ? (
+            {isDataAvailable(heartRateData) && heartRateData ? (
               <Line data={lineData(Object.keys(heartRateData), Object.values(heartRateData), 'Batimentos Cardíacos', 'rgb(75, 192, 192)')} />
             ) : (
               <p className="text-center">Sem acesso aos dados!</p>
@@ -114,7 +119,7 @@ export function CardsMetric({ selectedDate, id }: { selectedDate: any, id: strin
         </CardHeader>
         <CardContent className="pb-4 flex justify-center items-center">
           <div className="h-[200px] w-full flex justify-center items-center">
-            {isDataAvailable(stepData) ? (
+            {isDataAvailable(stepData) && stepData ? (
               <Doughnut data={doughnutData([stepData.current, stepData.goal], ['rgba(100, 200, 150, 1)', 'rgba(100, 200, 150, 0.1)'])} />
             ) : (
               <p className="text-center">Sem acesso aos dados!</p>
@@ -132,7 +137,7 @@ export function CardsMetric({ selectedDate, id }: { selectedDate: any, id: strin
         </CardHeader>
         <CardContent className="pb-4 flex justify-center items-center">
           <div className="h-[200px] w-full flex justify-center items-center">
-            {isDataAvailable(sleepData) ? (
+            {isDataAvailable(sleepData) && sleepData ? (
               <Doughnut data={doughnutData([sleepData.current, sleepData.goal], ['rgba(106, 90, 205, 1)', 'rgba(106, 90, 205, 0.1)'])} />
             ) : (
               <p className="text-center">Sem acesso aos dados!</p>
