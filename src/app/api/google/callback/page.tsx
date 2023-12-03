@@ -5,13 +5,13 @@ import { useEffect } from 'react';
 import { parseCookies } from "nookies";
 import api from '@/lib/api';
 
-const Callback = ({ searchParams }: any) => {
+const Callback = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const code = searchParams!.get('code');
 
   useEffect(() => {
     const { 'wearablefit.token': token } = parseCookies();
-    const searchParams = useSearchParams();
-    const code = searchParams.get('code');
     
     console.log(searchParams);
     if (code) {
