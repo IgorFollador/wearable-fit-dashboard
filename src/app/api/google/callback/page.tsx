@@ -10,8 +10,8 @@ const Callback = ({ searchParams }: any) => {
 
   useEffect(() => {
     const { 'wearablefit.token': token } = parseCookies();
-    const searchParams = useSearchParams()
-    const code = searchParams.get('code')
+    const searchParams = useSearchParams();
+    const code = searchParams.get('code');
     
     console.log(searchParams);
     if (code) {

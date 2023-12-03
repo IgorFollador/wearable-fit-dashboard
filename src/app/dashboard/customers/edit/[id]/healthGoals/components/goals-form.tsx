@@ -1,9 +1,13 @@
+"use client"
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
+import api from "@/lib/api";
 
 const goalsFormSchema = z.object({
   basalMetabolicRate: z.number().min(0, "A taxa metabólica basal deve ser um número positivo."),
@@ -32,6 +36,39 @@ export function GoalsForm(params: {id: string | number}) {
       fat: 0,
     },
   });
+
+  const disableInputs = params.id != "me" ? true : false;
+
+  useEffect(() => {
+    const getData = async () => {
+        try {
+          let response;
+          if (params.id === 'me') {
+            response = await api.get('/users');
+          } else {
+            response = await api.get(`/users/${params.id}`);
+          }
+
+          // Ajustar a data para evitar problemas com fuso horário
+          let adjustedDate;
+          if (response.data.birthDate) {
+            const birthDate = response.data.birthDate;
+            adjustedDate = new Date(birthDate + 'T00:00:00'); // Adiciona o horário
+          }
+
+          const formattedData = {
+            ...response.data,
+            dob: adjustedDate
+          };
+
+          form.reset(formattedData);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    getData();
+  }, [])
 
   const onSubmit = (data: GoalsFormValues) => {
     console.log('Metas:', data);
