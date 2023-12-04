@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react"
+
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -11,9 +13,59 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { PlusIcon } from "@radix-ui/react-icons"
+import api from "@/lib/api"
+import { toast } from "@/components/ui/use-toast"
 
 export function BindCustomer() {
+    const [ userId, setUserId ] = useState(null);
+    const [ userName, setUserName ] = useState("");
+    const [ disableBindButton, setDisableBindButton ] = useState(true);
 
+    useEffect(() => {
+        try {
+            const getUserById = async () => {
+                try {
+                    const response = await api.get(`/users/${userId}`);
+                    setUserName(`${response.data.firstName} ${response.data.lastName}`);
+                    setDisableBindButton(!!response.data.binded);
+
+                    if (response.data.binded) {
+                        toast({
+                            description: `Este usuário já está vinculado ao profissional!` 
+                        });
+                    }
+                    
+                } catch (error) {
+                    setUserName("Usuário não encontrado!");
+                    setDisableBindButton(false);
+                }
+            }
+            
+            if (userId) {
+                getUserById();
+            }
+
+        } catch (error) {
+            console.log(error);
+            setUserName("Usuário não encontrado!");
+        }
+    }, [userId]);
+
+    async function bindUser () {
+        try {
+            const response = await api.put(`/users/associate/client/${userId}`);
+            console.log(response);
+            toast({
+              description: `Novo usuário vinculado!` 
+            });
+          } catch (error: any) {
+            toast({
+              title: "Ops... ocorreu um erro!",
+              variant: "destructive",
+              description: error.getMessage()
+            });
+          }
+    }
 
     return (
         <Dialog>
@@ -35,22 +87,22 @@ export function BindCustomer() {
             </DialogDescription>
             </DialogHeader>
             <div className="flex w-full items-center gap-4 justify-center">
-                <span className="text-center">Pesquise um aluno!</span>
+                <span className="text-center">{ (userName == "" || userName == null) ? "Pesquise um aluno!" : userName }</span>
             </div>
             <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="username" className="text-right">
-                Username
+                <Label htmlFor="userId" className="text-right">
+                Código do usuário
                 </Label>
                 <Input
-                id="username"
-                defaultValue="@peduarte"
+                id="userId"
                 className="col-span-3"
+                onChange={(e: any) => setUserId(e.target.value)}
                 />
             </div>
             </div>
             <DialogFooter>
-            <Button type="submit" disabled>Vincular</Button>
+            <Button onClick={bindUser} type="submit" disabled={disableBindButton}>Vincular</Button>
             </DialogFooter>
         </DialogContent>
         </Dialog>
