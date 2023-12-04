@@ -3,7 +3,7 @@
 import { NotificationForm } from "./components/notification-form";
 import { NotificationList } from "./components/notifications-list";
 
-export default function NotificationsCustomerPage({ params }: { params: { id: number } }) {
+export default function NotificationsCustomerPage({ params }: { params: { id: number | string } }) {
   return (
       <>
         <div className="space-y-0.5">
@@ -12,7 +12,7 @@ export default function NotificationsCustomerPage({ params }: { params: { id: nu
               Visualize avisos ou envie notificações personalizadas para seu aluno.
           </p>
           <NotificationList />
-          <NotificationForm />
+          { params.id != "me" ? <NotificationForm /> : ''}
         </div>
       </>
   );

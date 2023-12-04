@@ -92,17 +92,17 @@ export function AccountForm(params: {id: string | number}) {
   }, [])
 
 
-  function onSubmit(data: AccountFormValues) {
+  async function onSubmit(data: AccountFormValues) {
     try {
       let response: any;
       if (params.id === 'me') {
-        response = api.put('/users');
+        response = await api.put('/users', data);
       } else {
-        response = api.put(`/users/${params.id}`);
+        response = await api.put(`/users/${params.id}`, data);
       }
-
+      console.log(response);
       toast({
-        description: `Dados do usuario ${response.id} alterados!` 
+        description: `Dados do usuario alterados!` 
       });
     } catch (error: any) {
       toast({
@@ -212,7 +212,7 @@ export function AccountForm(params: {id: string | number}) {
           )}
         />
         
-        <Button type="submit" disabled={disableInputs} >Atualizar</Button>
+        <Button type="submit" disabled={disableInputs}> Atualizar</Button>
       </form>
     </Form>
   );

@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import api from "@/lib/api";
+import { toast } from "@/components/ui/use-toast";
 
 const goalsFormSchema = z.object({
   basalMetabolicRate: z.number().min(0, "A taxa metabólica basal deve ser um número positivo."),
@@ -24,7 +25,7 @@ const goalsFormSchema = z.object({
 
 export function GoalsForm(params: {id: string | number}) {
   const form = useForm<GoalsFormValues>({
-    resolver: zodResolver(goalsFormSchema),
+    // resolver: zodResolver(goalsFormSchema),
     defaultValues: {
       basalMetabolicRate: 1500,
       calorieGoal: 2000,
@@ -37,16 +38,16 @@ export function GoalsForm(params: {id: string | number}) {
     },
   });
 
-  const disableInputs = params.id != "me" ? true : false;
+  const disableInputs = params.id == "me" ? true : false;
 
   useEffect(() => {
     const getData = async () => {
         try {
           let response;
           if (params.id === 'me') {
-            response = await api.get('/users');
+            response = await api.get('/health-goals');
           } else {
-            response = await api.get(`/users/${params.id}`);
+            response = await api.get(`/health-goals/client/${params.id}`);
           }
 
           // Ajustar a data para evitar problemas com fuso horário
@@ -70,9 +71,25 @@ export function GoalsForm(params: {id: string | number}) {
     getData();
   }, [])
 
-  const onSubmit = (data: GoalsFormValues) => {
-    console.log('Metas:', data);
-    // Aqui você pode adicionar a lógica para lidar com os dados do formulário
+  const onSubmit = async (data: GoalsFormValues) => {
+    try {
+      let response: any;
+      if (params.id === 'me') {
+        response = await api.put('/health-goals', data);
+      } else {
+        response = await api.put(`/health-goals/client/${params.id}`, data);
+      }
+      console.log(response);
+      toast({
+        description: `Metas do usuario alteradas!` 
+      });
+    } catch (error: any) {
+      toast({
+        title: "Ops... ocorreu um erro!",
+        variant: "destructive",
+        description: error.getMessage()
+      });
+    }
   };
 
   return (
@@ -87,7 +104,7 @@ export function GoalsForm(params: {id: string | number}) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Taxa Metabólica Basal (kcal)</FormLabel>
-                  <Input {...field} type="number" min="0" />
+                  <Input {...field} type="number" min="0" disabled={disableInputs} />
                   <FormMessage />
                 </FormItem>
               )}
@@ -102,7 +119,7 @@ export function GoalsForm(params: {id: string | number}) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Meta de Calorias (kcal)</FormLabel>
-                  <Input {...field} type="number" min="0" />
+                  <Input {...field} type="number" min="0" disabled={disableInputs} />
                   <FormMessage />
                 </FormItem>
               )}
@@ -117,7 +134,7 @@ export function GoalsForm(params: {id: string | number}) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Tempo de Sono (em horas)</FormLabel>
-                  <Input {...field} type="number" min="0" />
+                  <Input {...field} type="number" min="0" disabled={disableInputs} />
                   <FormMessage  />
                 </FormItem>
               )}
@@ -132,7 +149,7 @@ export function GoalsForm(params: {id: string | number}) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Meta de Passos</FormLabel>
-                  <Input {...field} type="number" min="0" />
+                  <Input {...field} type="number" min="0" disabled={disableInputs} />
                   <FormMessage />
                 </FormItem>
               )}
@@ -147,7 +164,7 @@ export function GoalsForm(params: {id: string | number}) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Meta de Tempo de Atividade Física (em minutos)</FormLabel>
-                  <Input {...field} type="number" min="0" />
+                  <Input {...field} type="number" min="0" disabled={disableInputs} />
                   <FormMessage />
                 </FormItem>
               )}
@@ -162,7 +179,7 @@ export function GoalsForm(params: {id: string | number}) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Meta de Carboidratos (em gramas)</FormLabel>
-                    <Input {...field} type="number" min="0" />
+                    <Input {...field} type="number" min="0" disabled={disableInputs} />
                     <FormMessage />
                   </FormItem>
                 )}
@@ -177,7 +194,7 @@ export function GoalsForm(params: {id: string | number}) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Meta de Proteínas (em gramas)</FormLabel>
-                  <Input {...field} type="number" min="0" />
+                  <Input {...field} type="number" min="0" disabled={disableInputs} />
                   <FormMessage />
                 </FormItem>
               )}
@@ -192,7 +209,7 @@ export function GoalsForm(params: {id: string | number}) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Meta de Gorduras (em gramas)</FormLabel>
-                  <Input {...field} type="number" min="0" />
+                  <Input {...field} type="number" min="0" disabled={disableInputs} />
                   <FormMessage />
                 </FormItem>
               )}
@@ -200,7 +217,7 @@ export function GoalsForm(params: {id: string | number}) {
           </div>
         </div>
   
-        <Button type="submit" disabled={params.id == "me" ? true : false}>Salvar Metas</Button>
+        <Button type="submit" disabled={disableInputs}>Salvar Metas</Button>
       </form>
     </Form>
   );  
