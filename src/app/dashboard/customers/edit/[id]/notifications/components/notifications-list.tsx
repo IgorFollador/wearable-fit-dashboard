@@ -1,5 +1,8 @@
 "use client"
 
+import api from "@/lib/api";
+import { useEffect, useState } from "react";
+
 interface Notification {
   id: number;
   title: string;
@@ -7,32 +10,43 @@ interface Notification {
   timestamp: string;
 }
 
-const notifications = [
-    {
-      id: 1,
-      title: "Aumento do tempo de treino",
-      message: "Igor vamos aumentar seu tempo de treino de 60 para 90 min diários.",
-      timestamp: "2023-11-08 10:00:02",
-    },
-    {
-      id: 2,
-      title: "Cuidado com o tempo sentado",
-      message: "Tente realizar mais caminhadas durante o dia.",
-      timestamp: "2023-11-16 11:22:09",
-    },
-  ];
+export function NotificationList(params: {id: string | number}) {
+  const [ notifications, setNotifications ] = useState([]);
 
-export function NotificationList() {
+
+  useEffect(() => {
+    const getData = async () => {
+        try {
+          let response;
+          if (params.id === 'me') {
+            response = await api.get('/notifications');
+          } else {
+            response = await api.get(`/notifications/${params.id}`);
+          }
+          setNotifications(response.data);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    getData();
+  }, [])
+
   return (
     <div className="bg-white shadow-md p-4 rounded-lg space-y-4">
       <h3 className="text-lg font-semibold">Lista de Notificações</h3>
-      {notifications.map((notification) => (
-        <div key={notification.id} className="bg-white shadow-md p-4 rounded-lg">
-          <h4 className="font-medium">{notification.title}</h4>
-          <p className="text-gray-600">{notification.message}</p>
-          <p className="text-gray-400">Horário: {formatTimestamp(notification.timestamp)}</p>
-        </div>
-      ))}
+      { 
+        (typeof notifications == 'undefined' || notifications.length == 0) ? 
+        <p>Nenhuma notificação encontrada!</p> : 
+        notifications.map((notification: any) => (
+          <div key={notification.id} className="bg-white shadow-md p-4 rounded-lg">
+            <h4 className="font-medium">{notification.title}</h4>
+            <p className="text-gray-600">{notification.message}</p>
+            <p className="text-gray-400">Horário: {formatTimestamp(notification.createdAt)}</p>
+          </div>
+        ))
+      }
     </div>
   );
 }

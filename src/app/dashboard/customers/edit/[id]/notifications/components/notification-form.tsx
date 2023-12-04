@@ -6,6 +6,8 @@ import * as z from "zod";
 import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
+import api from "@/lib/api";
 
 const notificationFormSchema = z.object({
   title: z.string().min(2, "O título deve conter pelo menos 2 caracteres."),
@@ -14,7 +16,7 @@ const notificationFormSchema = z.object({
 
 type NotificationFormValues = z.infer<typeof notificationFormSchema>;
 
-export function NotificationForm() {
+export function NotificationForm(params: {id: string | number}) {
   const form = useForm<NotificationFormValues>({
     resolver: zodResolver(notificationFormSchema),
     defaultValues: {
@@ -23,9 +25,27 @@ export function NotificationForm() {
     },
   });
 
-  const onSubmit = (data: NotificationFormValues) => {
-    console.log("Notificação:", data);
-    // Aqui você pode adicionar a lógica para lidar com os dados da notificação
+  const onSubmit = async (data: NotificationFormValues) => {
+    try {
+      const response = await api.post(`/notifications`, {
+        ...data,
+        "toUserId": params.id,
+      });
+
+      console.log(response);
+
+      toast({
+        description: `Nova notificação enviada para o usuário!` 
+      });
+
+      window.location.reload();
+    } catch (error: any) {
+      toast({
+        title: "Ops... ocorreu um erro!",
+        variant: "destructive",
+        description: error.getMessage()
+      });
+    }
   };
 
   return (
@@ -59,7 +79,7 @@ export function NotificationForm() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300">
+          <Button type="submit" className=" text-white rounded-md focus:outline-none focus:ring focus:ring-blue-300">
             Enviar Notificação
           </Button>
         </div>
