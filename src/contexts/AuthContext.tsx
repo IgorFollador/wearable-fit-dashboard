@@ -64,6 +64,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setCookie(undefined, 'wearablefit.token', token, {
                 maxAge: 60 * 60 * 24, // 24 hours
             })
+
+            localStorage.setItem('wearablefit.token', token);
     
             setIsAuthenticated(true);
             setUser({ userName, email, isProfessional });
@@ -78,6 +80,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     function signOut() {
         destroyCookie(undefined, 'wearablefit.token');
+        localStorage.removeItem("wearablefit.token");
         setIsAuthenticated(false);
         setUser(defaultUser);
         router.push('/');
