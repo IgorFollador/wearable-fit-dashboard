@@ -12,12 +12,32 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import { toast } from "@/components/ui/use-toast";
+import api from "@/lib/api";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData & { id?: string }>
 }
 
 export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
+  async function removeBind(userId: any) {
+    try {
+      const response = await api.put(`/users/disassociate/client/${userId}`);
+      console.log(response);
+      toast({
+        description: `Usuário desvinculado com sucesso!` 
+      });
+      window.location.reload();
+      return
+    } catch (error: any) {
+      toast({
+        title: "Ops... ocorreu um erro!",
+        variant: "destructive",
+        description: error.getMessage()
+      });
+    }
+  }
+  
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -38,7 +58,7 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
           </DropdownMenuItem>
         </Link>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => removeBind(row.original.id)}>
           Remover Vínculo
         </DropdownMenuItem>
       </DropdownMenuContent>
