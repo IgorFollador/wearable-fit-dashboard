@@ -58,6 +58,7 @@ export function BindCustomer() {
             toast({
               description: `Novo usuário vinculado!` 
             });
+            window.location.reload();
           } catch (error: any) {
             toast({
               title: "Ops... ocorreu um erro!",
